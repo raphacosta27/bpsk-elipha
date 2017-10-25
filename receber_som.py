@@ -1,47 +1,46 @@
 # Camada Física da Computação
-# Exemplo socket server 
+# Exemplo socket server
 ## https://pymotw.com/2/socket/tcp.html
 
 import socket
 import sys
 
-def initialize_socket(porta):
-    PORTA = porta
+class TextGetter():
+    def __init__(self, porta):
+        self.porta = porta
+        self.aberto = False
 
-    print("Inicializando socket TCP/IP")
-    # Create a TCP/IP socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    def initialize_socket(self):
 
-    # Bind the socket to the port
-    server_address = ('localhost', PORTA)
-    print("PORTA {}".format(PORTA))
-    sock.bind(server_address)
+        print("Inicializando socket TCP/IP")
+        # Create a TCP/IP socket
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # Listen for incoming connections
-    sock.listen(1)
+        # Bind the socket to the port
+        self.server_address = ('localhost', self.porta)
+        print("PORTA {}".format(self.porta))
+        self.sock.bind(self.server_address)
 
-    while True:
-        # Wait for a connection
-        print("waiting for a connection")
-        connection, client_address = sock.accept()
+        # Listen for incoming connections
+        self.sock.listen(1)
+        while True:
+                print("waiting for a connection")
+                self.connection, self.client_address = self.sock.accept()
+                print(" connection from {}".format(self.client_address))
+                break
+        self.aberto = True
 
-        try:
-            print(" connection from {}".format(client_address))
-
+    def getText(self):   
+        if self.aberto == False:
+            return "Abra o Socket"
+        else:    
             # Receive the data in small chunks and retransmit it
             while True:
-                data = connection.recv(16)
+                data = self.connection.recv(16)
                 if len(data) > 0:
                     print("{}".format(str(data, 'utf-8')), end="")
+                    return str(data, 'utf-8')
                 if(len(data) <= 0):
                     break
-
-        finally:
-            # Clean up the connection
-            connection.close()
-    
-def main():
-    initialize_socket(1234)
-
-if __name__ == "__main__":
-    main()
+        # except UnicodeDecodeError:
+        #     pass
