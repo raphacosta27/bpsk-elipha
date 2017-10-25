@@ -44,3 +44,7 @@ class TextGetter():
                     break
         # except UnicodeDecodeError:
         #     pass
+    def close_socket(self):
+        self.aberto = False
+        print("Fechou socket")
+        self.sock.close()

@@ -1,10 +1,14 @@
 import tkinter as tk
 import receber_som
+import manda_som
 
 class Main():
     def __init__(self):
         self.texto = []
+        self.send_click = False
+        self.loop = None
         self.recebe = receber_som.TextGetter(1234)
+        self.manda = manda_som.SendText()
         self.window = tk.Tk()
         self.window.title('TrashTalk')
         # self.window.geometry("300x200")
@@ -32,8 +36,13 @@ class Main():
 
         # self.e1 = tk.Entry(self.window, state='disable')
         # self.e1.grid(row=1, column=0, columnspan=4, rowspan=2,sticky="nswe")
+        self.text_receive = tk.StringVar()
+        self.text_receive.set("")
+
         self.label = tk.Label(self.window)
+        self.label.configure(textvariable = self.text_receive)
         self.label.grid(row=1, column=0)
+        
 
 
         self.e2 = tk.Entry(self.window)
@@ -46,9 +55,18 @@ class Main():
         # self.receive_button.grid(row = 3, column = 0, columnspan=1)
         # # self.send_button.configure(command = )
     def ok(self):
+        # self.send_click = True
+        # self.recebe.close_socket()
+        # self.window.update()
+        # if self._job is not None:
+        #     print("entrei2")
+        #     self._job = None
+        #     self.window.after_cancel(self._job)
+            
         self.send_button['state'] = 'normal'
         self.e2['state'] = 'normal'
         self.label['text'] = ''
+        
         return True
 
     def send(self):
@@ -59,21 +77,36 @@ class Main():
             print('nao')
         #comandos para mandar
     def receive(self):
+        # self.manda.send_socket("alo alo alo alo quem é sou eu bola de fogo krebao")
         self.send_button['state'] = 'disabled'
         self.e2['state'] = 'disabled'
         # self.label['text'] = 'alo'
-        print('rrr')
+        # print('rrr')
         socket = self.recebe.initialize_socket()
         self.plot_text()
     
     def plot_text(self):
+        # self._job = None
+        # print(self._job)
         text = self.recebe.getText()
         self.texto.append(text)
-        self.put_char_label(text)
-        self.window.after(7000, self.plot_text())
+        # if self.send_click == False:
+        if text != '&':
+            self.put_char_label(text)
+            self.loop = self.window.after(7000, self.plot_text())
+        else: 
+            print("é &")
+            self.recebe.close_socket()
+            self.window.after_cancel(self.loop)
+            self.window.update()
 
     def put_char_label(self, character):
-        self.label['text'] = self.label['text'] + character
+        texto = self.text_receive.get() + character
+        # self.label['text'] = self.label['text'] + character
+        # self.text_receive.set(texto)
+        # self.text_receive.trace("w", self.callback)
+        self.text_receive.set(texto)
+        # print(self.text_receive.get())
         self.window.update()
 
     def iniciar(self):

@@ -5,6 +5,7 @@ import sys
 class SendText():
     def __init__(self):
         self.porta = 3656
+        
     def send_socket(self, texto):    
         # Create a TCP/IP socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
