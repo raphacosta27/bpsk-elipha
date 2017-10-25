@@ -16,7 +16,7 @@ class SendText():
 
         try:
             # Send data
-            texto = texto +'&'         
+            texto = texto + '&'         
             message = texto.encode()
             print('sending {!r}'.format(message))
             sock.sendall(message)

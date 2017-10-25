@@ -37,11 +37,22 @@ class TextGetter():
             # Receive the data in small chunks and retransmit it
             while True:
                 data = self.connection.recv(16)
+                print(len(data))
+                # if str(data, 'utf-8') == '&':
+                #     print("é &")
+                #     return '&'
+                print("{}".format(str(data, 'utf-8')), end="")
                 if len(data) > 0:
-                    print("{}".format(str(data, 'utf-8')), end="")
+                    # print("{}".format(str(data, 'utf-8')), end="")
                     return str(data, 'utf-8')
+                if len(data) == 0:
+                    print("vazio")
+
                 if(len(data) <= 0):
+                    print("é o prezo")
                     break
+            print("alo")
+        # self.close_socket()
         # except UnicodeDecodeError:
         #     pass
     def close_socket(self):

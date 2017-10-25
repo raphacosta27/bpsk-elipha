@@ -88,7 +88,9 @@ class Main():
         text = self.recebe.getText()
         self.texto.append(text)
         # if self.send_click == False:
+        print(text)
         if text != '&':
+            print("não é &")
             self.put_char_label(text)
             self.loop = self.window.after(7000, self.plot_text())
         else: 
