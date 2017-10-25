@@ -15,7 +15,8 @@ class SendText():
         sock.connect(server_address)
 
         try:
-            # Send data         
+            # Send data
+            texto = texto +'&'         
             message = texto.encode()
             print('sending {!r}'.format(message))
             sock.sendall(message)
