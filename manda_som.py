@@ -21,13 +21,13 @@ class SendText():
             sock.sendall(message)
 
             # Look for the response
-            amount_received = 0
-            amount_expected = len(message)
+            # amount_received = 0
+            # amount_expected = len(message)
 
-            while amount_received < amount_expected:
-                data = sock.recv(16)
-                amount_received += len(data)
-                print('received {!r}'.format(data))
+            # while amount_received < amount_expected:
+            #     data = sock.recv(16)
+            #     amount_received += len(data)
+            #     print('received {!r}'.format(data))
 
         finally:
             print('closing socket')

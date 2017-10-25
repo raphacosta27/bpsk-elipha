@@ -7,6 +7,7 @@ class Main():
         self.texto = []
         self.send_click = False
         self.loop = None
+        self.send_selected = False
         self.recebe = receber_som.TextGetter(1234)
         self.manda = manda_som.SendText()
         self.window = tk.Tk()
@@ -47,31 +48,27 @@ class Main():
 
         self.e2 = tk.Entry(self.window)
         self.e2.grid(row=4, column=0)
+        self.e2['state'] = 'disabled'
         self.send_button = tk.Button(self.window, text = "Send",font = ("Monospace",12))
         self.send_button.grid(row = 4, column = 2)
         self.send_button.configure(command =self.send)
+        self.send_button['state'] = 'disabled'
 
         # self.receive_button = tk.Button(self.window, text = "Receive",font = ("Monospace",12))
         # self.receive_button.grid(row = 3, column = 0, columnspan=1)
         # # self.send_button.configure(command = )
     def ok(self):
-        # self.send_click = True
-        # self.recebe.close_socket()
-        # self.window.update()
-        # if self._job is not None:
-        #     print("entrei2")
-        #     self._job = None
-        #     self.window.after_cancel(self._job)
-            
+        
         self.send_button['state'] = 'normal'
         self.e2['state'] = 'normal'
         self.label['text'] = ''
-        
-        return True
+        self.send_selected = True
 
     def send(self):
-        if self.ok():
+        if self.send_selected:
             text = self.e2.get()
+            self.manda.send_socket(text)
+            self.e2.delete(0, 'end')
             print (text)
         else:
             print('nao')
