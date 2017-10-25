@@ -1,6 +1,7 @@
 import tkinter as tk
 import receber_som
 import manda_som
+import threading
 
 class Main():
     def __init__(self):
@@ -80,24 +81,36 @@ class Main():
         # self.label['text'] = 'alo'
         # print('rrr')
         socket = self.recebe.initialize_socket()
-        self.plot_text()
+        self.start_thread()
+        # self.plot_text()
     
     def plot_text(self):
+        print("alo")
         # self._job = None
         # print(self._job)
-        text = self.recebe.getText()
-        self.texto.append(text)
+        # text = self.recebe.getText()
+        # self.texto.append(text)
         # if self.send_click == False:
-        print(text)
-        if text != '&':
-            print("não é &")
-            self.put_char_label(text)
-            self.loop = self.window.after(7000, self.plot_text())
-        else: 
-            print("é &")
-            self.recebe.close_socket()
-            self.window.after_cancel(self.loop)
-            self.window.update()
+        # print(text)
+        # if text != '&':
+        # print("não é &")
+        # self.put_char_label(text)
+        # self.loop = self.window.after(7000, self.plot_text())
+        # else: }
+        # print("é &")
+        # self.recebe.close_socket()
+        # self.window.after_cancel(self.loop)
+        # self.window.update()
+    def start_thread(self):
+        print("iniciado")
+        self.thread = threading.Thread(target=self.thread, args=())
+        self.thread.start()
+        
+    def thread(self):
+        while True:
+            print("thread")
+            texto = self.recebe.getText()
+            self.text_receive.set(self.text_receive.get() + texto)
 
     def put_char_label(self, character):
         texto = self.text_receive.get() + character
